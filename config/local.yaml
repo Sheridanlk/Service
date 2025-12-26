@@ -1,0 +1,13 @@
+env: local #dev, prod
+http_server:
+  address: localhost
+  timeout: 10s
+  idle_timeout: 10s 
+postgre_sql:
+  host: localhost
+  port: 5453
+  db_name: aboba
+  user_name: abobus 
+client:
+  address: boss.com
+  timeout: 5s
