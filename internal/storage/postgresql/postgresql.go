@@ -28,7 +28,7 @@ func New(host string, port int, dbName string, userName string, password string)
 	ctxPing, cancelPing := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancelPing()
 	if err := pool.Ping(ctxPing); err != nil {
-		return nil, fmt.Errorf("%s: can't ping database: %w")
+		return nil, fmt.Errorf("%s: can't ping database: %w", op, err)
 	}
 
 	return &Storage{pool: pool}, nil
