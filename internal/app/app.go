@@ -2,16 +2,16 @@ package app
 
 import (
 	"log/slog"
-	"net/http"
 
+	serverapp "github.com/Sheridanlk/Service/internal/app/server"
 	"github.com/Sheridanlk/Service/internal/config"
-	"github.com/Sheridanlk/Service/internal/httpService/router/chirouter"
+	"github.com/Sheridanlk/Service/internal/http/router/chirouter"
 	"github.com/Sheridanlk/Service/internal/storage/postgresql"
 )
 
 type App struct {
 	Storage *postgresql.Storage
-	Server  *http.Server
+	Server  *serverapp.App
 	// client
 }
 
@@ -23,13 +23,7 @@ func New(log *slog.Logger, storageCfg config.PostgreSQL, serverCfg config.HTTPSe
 
 	router := chirouter.Setup(log, storage)
 
-	server := &http.Server{
-		Addr:         serverCfg.Address,
-		Handler:      router,
-		ReadTimeout:  serverCfg.Timeout,
-		WriteTimeout: serverCfg.Timeout,
-		IdleTimeout:  serverCfg.IdleTimeout,
-	}
+	server := serverapp.New(log, router, serverCfg.Address, serverCfg.Timeout, serverCfg.Timeout, serverCfg.IdleTimeout)
 
 	return &App{
 		Storage: storage,
