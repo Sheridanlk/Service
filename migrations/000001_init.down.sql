@@ -1,1 +1,2 @@
-DROP TABLE IF EXISTS profiles;
+DROP TABLE IF EXISTS user_configs;
+DROP TABLE IF EXISTS instances;
