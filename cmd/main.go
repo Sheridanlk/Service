@@ -8,13 +8,29 @@ import (
 	"github.com/Sheridanlk/Service/internal/app"
 	"github.com/Sheridanlk/Service/internal/config"
 	"github.com/Sheridanlk/Service/internal/logger"
+	"github.com/Sheridanlk/Service/internal/storage/postgresql"
 )
 
 func main() {
 	cfg := config.Load()
 	log := logger.SetupLogger(cfg.Env)
 
-	app := app.New(log, cfg.PostgreSQL, cfg.HTTPServer)
+	storage, err := postgresql.New(cfg.PostgreSQL.Host, cfg.PostgreSQL.UserName, cfg.PostgreSQL.Password, cfg.PostgreSQL.DBName, cfg.PostgreSQL.Port)
+	if err != nil {
+		panic(err)
+	}
+
+	// Регистрация в оснвном сервсие и получение ключей / загрузка данных из state.yaml
+
+	// Проверка ключей / и запуск / перезапуск сервера
+
+	// Синхронизация инстансов из конфига в бд
+	// TODO: Добавить инстансы в конфиг
+
+	// Запуск воркера для healthcheck
+	// TODO: Написать воркер
+
+	app := app.New(log, storage, cfg.HTTPServer)
 
 	go app.Server.Start()
 

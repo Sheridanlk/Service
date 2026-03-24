@@ -15,11 +15,7 @@ type App struct {
 	// client
 }
 
-func New(log *slog.Logger, storageCfg config.PostgreSQL, serverCfg config.HTTPServer) *App {
-	storage, err := postgresql.New(storageCfg.Host, storageCfg.Port, storageCfg.DBName, storageCfg.UserName, storageCfg.Password)
-	if err != nil {
-		panic(err)
-	}
+func New(log *slog.Logger, storage *postgresql.Storage, serverCfg config.HTTPServer) *App {
 
 	router := chirouter.Setup(log, storage)
 
