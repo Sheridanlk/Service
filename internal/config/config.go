@@ -24,7 +24,7 @@ type HTTPServer struct {
 type PostgreSQL struct {
 	Host     string `yaml:"host"`
 	Port     int    `yaml:"port"`
-	DbName   string `yaml:"db_name"`
+	DBName   string `yaml:"db_name"`
 	UserName string `yaml:"user_name"`
 	Password string `yaml:"password" env_required:"PGSQL_PASSWORD"`
 }
