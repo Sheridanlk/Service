@@ -10,9 +10,17 @@ import (
 
 type Config struct {
 	Env        string     `yaml:"env"`
+	NodeInfo   NodeInfo   `yaml:"node_info"`
 	HTTPServer HTTPServer `yaml:"http_server"`
 	PostgreSQL PostgreSQL `yaml:"postgre_sql"`
 	Clinet     Client     `yaml:"client"`
+}
+
+type NodeInfo struct {
+	Region            string `yaml:"region"`
+	Country           string `yaml:"country"`
+	City              string `yaml:"city"`
+	RegistrationToken string `yaml:"registration_token"`
 }
 
 type HTTPServer struct {

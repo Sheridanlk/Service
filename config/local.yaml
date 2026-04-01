@@ -1,4 +1,9 @@
 env: local #dev, prod
+node_info: 
+ region: AOaoao
+ country: Abobia
+ city: AOaoao
+ registration_token: fhkwjahfwrhfhwajkfhelkrfh
 http_server:
   address: localhost
   timeout: 10s
