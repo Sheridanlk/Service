@@ -1,4 +1,4 @@
-package clients
+package master
 
 import (
 	"github.com/Sheridanlk/Service/internal/domain/models"
