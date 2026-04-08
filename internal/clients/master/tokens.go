@@ -23,17 +23,17 @@ func (c *MainServiceClient) GetTokens(
 	ctx context.Context,
 	authType string,
 	tokenValue string,
-) (*models.AuthTokens, error) {
+) (models.AuthTokens, error) {
 	const op = "clients.master.GetTokens"
 
 	u, err := url.Parse(c.baseURL)
 	if err != nil {
-		return nil, fmt.Errorf("%s: invalid url: %w", op, err)
+		return models.AuthTokens{}, fmt.Errorf("%s: invalid url: %w", op, err)
 	}
 
 	u.Path, err = url.JoinPath(u.Path, endpontServerToken)
 	if err != nil {
-		return nil, fmt.Errorf("%s: invalid url: %w", op, err)
+		return models.AuthTokens{}, fmt.Errorf("%s: invalid url: %w", op, err)
 	}
 
 	q := u.Query()
@@ -43,28 +43,28 @@ func (c *MainServiceClient) GetTokens(
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
 	if err != nil {
-		return nil, fmt.Errorf("%s: failed to create request: %w", op, err)
+		return models.AuthTokens{}, fmt.Errorf("%s: failed to create request: %w", op, err)
 	}
 
 	resp, err := c.http.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("%s: failed to send request: %w", op, err)
+		return models.AuthTokens{}, fmt.Errorf("%s: failed to send request: %w", op, err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%s: server returned status: %d", op, resp.StatusCode)
+		return models.AuthTokens{}, fmt.Errorf("%s: server returned status: %d", op, resp.StatusCode)
 	}
 
 	var res TokenResponse
 
 	if err = json.NewDecoder(resp.Body).Decode(&res); err != nil {
-		return nil, err
+		return models.AuthTokens{}, err
 	}
 
 	if !res.Success {
-		return nil, fmt.Errorf("%s: server error", op)
+		return models.AuthTokens{}, fmt.Errorf("%s: server error", op)
 	}
 
-	return &res.Tokens, nil
+	return res.Tokens, nil
 }
