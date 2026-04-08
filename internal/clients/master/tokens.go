@@ -14,12 +14,17 @@ const (
 	endpontServerToken = "/vpn/token"
 )
 
+type TokenResponse struct {
+	Success bool              `json:"success"`
+	Tokens  models.AuthTokens `json:"data"`
+}
+
 func (c *MainServiceClient) GetTokens(
 	ctx context.Context,
 	authType string,
 	tokenValue string,
 ) (*models.AuthTokens, error) {
-	const op = "clients.http.GetTokens"
+	const op = "clients.master.GetTokens"
 
 	u, err := url.Parse(c.baseURL)
 	if err != nil {

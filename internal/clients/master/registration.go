@@ -15,13 +15,29 @@ const (
 	endpointRegister = "/vpn/register"
 )
 
+type RegisterRequest struct {
+	Name              string          `json:"name"`
+	Location          models.Location `json:"location"`
+	RegistrationToken string          `json:"registration_token"`
+}
+
+type RegisterResponse struct {
+	Success bool    `json:"success"`
+	Data    RegData `json:"data"`
+}
+
+type RegData struct {
+	ID           string `json:"id"`
+	ServerSecret string `json:"server_secret"`
+}
+
 func (c *MainServiceClient) RegisterNode(
 	ctx context.Context,
 	serverName string,
 	location models.Location,
 	registerToken string,
 ) (string, string, error) {
-	const op = "clients.http.RegisterNode"
+	const op = "clients.master.RegisterNode"
 
 	url, err := url.JoinPath(c.baseURL, endpointRegister)
 	if err != nil {
